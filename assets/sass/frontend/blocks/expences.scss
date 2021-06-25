@@ -1,0 +1,15 @@
+@import '../_mixin';
+
+table {
+    &.build-a-house-expences {
+        .date {
+            white-space: nowrap;
+        }
+        .number {
+            text-align: right;
+        }
+    }
+}
+
+
+
