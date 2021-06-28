@@ -1,85 +1,379 @@
-# Translation of the WordPress plugin Interactive Polish Map trunk by Marcin Pietrzak.
-# Copyright (C) 2011 Marcin Pietrzak
-# This file is distributed under the same license as the Interactive Polish Map package.
-# Marcin Pietrzak <marcin@iworks.pl>, 2011.
-#
-#, fuzzy
+# Copyright (C) 2021 Marcin Pietrzak
+# This file is distributed under the same license as the Interactive Polish Map plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: Interactive Polish Map trunk\n"
-"Report-Msgid-Bugs-To: http://wordpress.org/tag/interactive-polish-map\n"
-"POT-Creation-Date: 2011-02-04 23:05+0100\n"
-"PO-Revision-Date: 2011-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Marcin Pietrzak <marcin@iworks.pl>\n"
-"Language-Team: Marcin Pietrzak <marcin@iworks.pl>\n"
-"Language: \n"
+"Project-Id-Version: Interactive Polish Map PLUGIN_VERSION\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/interactive-polish-map\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2021-06-28T19:04:32+02:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.4.0\n"
 
-#: interactive-polish-map.php:46
-msgid "hidden"
-msgstr ""
-
-#: interactive-polish-map.php:47
-msgid "on left"
-msgstr ""
-
-#: interactive-polish-map.php:48
-msgid "on right"
-msgstr ""
-
-#: interactive-polish-map.php:49
-msgid "under"
-msgstr ""
-
-#: interactive-polish-map.php:50
-msgid "under - two columns (only for 400px & 500px)"
-msgstr ""
-
-#: interactive-polish-map.php:51
-msgid "under - three columns (only for 500px)"
-msgstr ""
-
-#. #-#-#-#-#  interactive-polish-map.pot (Interactive Polish Map trunk)  #-#-#-#-#
-#. Plugin Name of the plugin/theme
-#: interactive-polish-map.php:74 interactive-polish-map.php:105
-#: snippets/widget_map.php:12
+#. Plugin Name of the plugin
+#: etc/options.php:11
+#: includes/iworks/interactive-polish-map/class-interactive-polish-map-widget.php:10
+#: interactive-polish-map.php:117
 msgid "Interactive Polish Map"
 msgstr ""
 
-#: interactive-polish-map.php:108 snippets/widget_map.php:104
-msgid "Map width"
+#. Plugin URI of the plugin
+msgid "http://iworks.pl/interactive-polish-map/"
 msgstr ""
 
-#: interactive-polish-map.php:109 snippets/widget_map.php:133
-msgid "Display list"
+#. Description of the plugin
+msgid "PLUGIN_DESCRIPTION"
 msgstr ""
 
-#: interactive-polish-map.php:111
-msgid "URL"
-msgstr ""
-
-#: interactive-polish-map.php:129
-msgid "Save Changes"
-msgstr ""
-
-#: snippets/widget_map.php:9
-msgid "Widget is used to place interactive polish map."
-msgstr ""
-
-#: snippets/widget_map.php:75
-msgid "Title:"
-msgstr ""
-
-#. Description of the plugin/theme
-msgid "Version: trunk"
-msgstr ""
-
-#. Author of the plugin/theme
+#. Author of the plugin
 msgid "Marcin Pietrzak"
 msgstr ""
 
-#. Author URI of the plugin/theme
-msgid "http://iworks.pl"
+#. Author URI of the plugin
+msgid "http://iworks.pl/"
+msgstr ""
+
+#: assets/template-parts/block/expences-table-header.php:4
+msgid "#"
+msgstr ""
+
+#: assets/template-parts/block/expences-table-header.php:5
+msgid "Title"
+msgstr ""
+
+#: assets/template-parts/block/expences-table-header.php:6
+msgid "Date Start"
+msgstr ""
+
+#: assets/template-parts/block/expences-table-header.php:7
+msgid "Cost"
+msgstr ""
+
+#: etc/options.php:12
+msgid "Polish Map"
+msgstr ""
+
+#: etc/options.php:26
+msgid "Map Size"
+msgstr ""
+
+#: etc/options.php:27
+msgid "px"
+msgstr ""
+
+#: etc/options.php:36
+msgid "Districts List Position"
+msgstr ""
+
+#: etc/options.php:39
+msgid "Hidden"
+msgstr ""
+
+#: etc/options.php:40
+msgid "On left"
+msgstr ""
+
+#: etc/options.php:41
+msgid "On right"
+msgstr ""
+
+#: etc/options.php:42
+msgid "Before"
+msgstr ""
+
+#: etc/options.php:43
+msgid "After"
+msgstr ""
+
+#: etc/options.php:44
+msgid "After two columns"
+msgstr ""
+
+#: etc/options.php:45
+msgid "After three columns"
+msgstr ""
+
+#: etc/options.php:52
+msgid "Color Style"
+msgstr ""
+
+#: etc/options.php:55
+msgid "Default"
+msgstr ""
+
+#: etc/options.php:56
+msgid "My own"
+msgstr ""
+
+#: etc/options.php:57
+msgid "Auto Adjust"
+msgstr ""
+
+#: etc/options.php:65
+msgid "Foreground color"
+msgstr ""
+
+#: etc/options.php:74
+msgid "Border Color"
+msgstr ""
+
+#: etc/options.php:82
+#: etc/options.php:124
+msgid "We are waiting for your message"
+msgstr ""
+
+#: etc/options.php:88
+msgid "I love what I do!"
+msgstr ""
+
+#: etc/options.php:126
+msgctxt "link to support forum on WordPress.org"
+msgid "https://wordpress.org/support/plugin/interactive-polish-map/"
+msgstr ""
+
+#: etc/options.php:126
+msgid "WordPress Help Forum"
+msgstr ""
+
+#: etc/options.php:138
+msgid "Below are some links to help spread this plugin to other users"
+msgstr ""
+
+#: etc/options.php:140
+msgid "Give it a five stars on WordPress.org"
+msgstr ""
+
+#: etc/options.php:141
+msgctxt "plugin home page on WordPress.org"
+msgid "https://wordpress.org/plugins/interactive-polish-map/"
+msgstr ""
+
+#: etc/options.php:141
+msgid "Link to it so others can easily find it"
+msgstr ""
+
+#: includes/iworks/class-interactive-polish-map.php:81
+msgid "Lower-Silesia"
+msgstr ""
+
+#: includes/iworks/class-interactive-polish-map.php:82
+msgid "Kuyavia-Pomerania"
+msgstr ""
+
+#: includes/iworks/class-interactive-polish-map.php:83
+msgid "Lublin"
+msgstr ""
+
+#: includes/iworks/class-interactive-polish-map.php:84
+msgid "Lubusz"
+msgstr ""
+
+#: includes/iworks/class-interactive-polish-map.php:85
+msgid "Lodzkie"
+msgstr ""
+
+#: includes/iworks/class-interactive-polish-map.php:86
+msgid "Lesser-Poland"
+msgstr ""
+
+#: includes/iworks/class-interactive-polish-map.php:87
+msgid "Masovia"
+msgstr ""
+
+#: includes/iworks/class-interactive-polish-map.php:88
+msgid "Opole"
+msgstr ""
+
+#: includes/iworks/class-interactive-polish-map.php:89
+msgid "Subcarpathia"
+msgstr ""
+
+#: includes/iworks/class-interactive-polish-map.php:90
+msgid "Podlaskie"
+msgstr ""
+
+#: includes/iworks/class-interactive-polish-map.php:91
+msgid "Pomerania"
+msgstr ""
+
+#: includes/iworks/class-interactive-polish-map.php:92
+msgid "Swietokrzyskie"
+msgstr ""
+
+#: includes/iworks/class-interactive-polish-map.php:93
+msgid "Silesia"
+msgstr ""
+
+#: includes/iworks/class-interactive-polish-map.php:94
+msgid "Warmia-Masuria"
+msgstr ""
+
+#: includes/iworks/class-interactive-polish-map.php:95
+msgid "Greater-Poland"
+msgstr ""
+
+#: includes/iworks/class-interactive-polish-map.php:96
+msgid "West-Pomerania"
+msgstr ""
+
+#: includes/iworks/interactive-polish-map/class-interactive-polish-map-widget.php:12
+msgid "Widget is used to place interactive polish map."
+msgstr ""
+
+#: includes/iworks/interactive-polish-map/class-interactive-polish-map-widget.php:67
+msgid "Title:"
+msgstr ""
+
+#: includes/iworks/interactive-polish-map/class-interactive-polish-map-widget.php:82
+msgid "Map width"
+msgstr ""
+
+#: includes/iworks/interactive-polish-map/class-interactive-polish-map-widget.php:108
+msgid "Display list"
+msgstr ""
+
+#: includes/iworks/options/options.php:237
+msgid "An error occurred while getting the configuration."
+msgstr ""
+
+#: includes/iworks/options/options.php:734
+msgid "Upload image"
+msgstr ""
+
+#: includes/iworks/options/options.php:740
+msgid "Delete image"
+msgstr ""
+
+#: includes/iworks/options/options.php:826
+msgid "Save Changes"
+msgstr ""
+
+#: includes/iworks/options/options.php:1631
+msgid "Country"
+msgstr ""
+
+#: includes/iworks/options/options.php:1632
+msgid "City"
+msgstr ""
+
+#: includes/iworks/options/options.php:1633
+msgid "Street"
+msgstr ""
+
+#: includes/iworks/options/options.php:1634
+msgid "ZIP code"
+msgstr ""
+
+#: includes/iworks/options/options.php:1783
+msgid "OFF"
+msgstr ""
+
+#: includes/iworks/options/options.php:1784
+msgid "ON"
+msgstr ""
+
+#: includes/iworks/rate/rate.php:111
+msgid "Settings"
+msgstr ""
+
+#: includes/iworks/rate/rate.php:117
+#: includes/iworks/rate/templates/thanks.php:28
+msgid "Provide us a coffee"
+msgstr ""
+
+#: includes/iworks/rate/rate.php:365
+msgctxt "plugins home"
+msgid "https://wordpress.org/plugins/%s"
+msgstr ""
+
+#: includes/iworks/rate/rate.php:371
+msgctxt "plugins support home"
+msgid "https://wordpress.org/support/plugin/%s"
+msgstr ""
+
+#: includes/iworks/rate/templates/thanks.php:17
+msgid "Thank you for using our plugin %s!"
+msgstr ""
+
+#. translators: %1$s: open anchor tag, %2$s: close anchor tag
+#: includes/iworks/rate/templates/thanks.php:20
+msgid "Please let us know what you think about our plugin. It is important that we can develop this tool. Thank you for all the ratings, reviews and donates. If you have a technical problem, please before you add a review %1$scheck our FAQ%2$s or contact us if you did not find help there. We will try to help you!"
+msgstr ""
+
+#: includes/iworks/rate/templates/thanks.php:24
+#: includes/iworks/rate/templates/widgets/support.php:23
+msgid "Get help"
+msgstr ""
+
+#: includes/iworks/rate/templates/thanks.php:26
+#: includes/iworks/rate/templates/widgets/support.php:33
+msgid "Add review"
+msgstr ""
+
+#: includes/iworks/rate/templates/thanks.php:30
+msgid "I added review, do not show again"
+msgstr ""
+
+#: includes/iworks/rate/templates/widgets/donate.php:1
+msgid "However, working on plugins and technical support requires many hours of work. If you want to appreciate it, you can provide me a coffee."
+msgstr ""
+
+#: includes/iworks/rate/templates/widgets/donate.php:2
+msgid "If every plugin user did it, I could devote myself fully to working on this plugin. Thanks everyone!"
+msgstr ""
+
+#: includes/iworks/rate/templates/widgets/donate.php:3
+msgid "Provide me a coffee"
+msgstr ""
+
+#: includes/iworks/rate/templates/widgets/support.php:4
+msgid "Do you have a technical problem? Please contact us. We will be happy to help you. Or maybe you have an idea for a new feature? Please let us know about it by filling the support form. We will try to add it!"
+msgstr ""
+
+#. translators: %1$s: open anchor tag, %2$s: close anchor tag, %3$s: open anchor tag, %4$s: close anchor tag
+#: includes/iworks/rate/templates/widgets/support.php:13
+msgid "Please %1$scheck our FAQ%2$s before adding a thread with technical problem. If you do not find help there, %3$scheck support forum%4$s for similar problems."
+msgstr ""
+
+#: includes/iworks/rate/templates/widgets/support.php:28
+msgid "Do you like our plugin? Could you rate him? Please let us know what you think about our plugin. It is important that we can develop this tool. Thank you for all the ratings, reviews and donates."
+msgstr ""
+
+#: assets/blocks/map.js:29
+msgid "Expences"
+msgstr ""
+
+#: assets/blocks/map.js:30
+msgid "Show expences from selected period."
+msgstr ""
+
+#: assets/blocks/map.js:45
+msgid "Expences Settings"
+msgstr ""
+
+#: assets/blocks/map.js:54
+msgid "Period:"
+msgstr ""
+
+#: assets/blocks/map.js:62
+msgid "All data"
+msgstr ""
+
+#: assets/blocks/map.js:65
+msgid "This year"
+msgstr ""
+
+#: assets/blocks/map.js:68
+msgid "This month"
+msgstr ""
+
+#: assets/blocks/map.js:71
+msgid "Last 7 days"
+msgstr ""
+
+#: assets/blocks/map.js:88
+msgid "Configure block on sidebar."
 msgstr ""
