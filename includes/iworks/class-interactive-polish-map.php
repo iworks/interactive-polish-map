@@ -34,6 +34,35 @@ class iworks_interactive_polish_map extends iworks {
 	private $blocks;
 	private $capability;
 	private $settings_page;
+	/**
+	 * names
+	 *
+	 * @since 2.0.0
+	 */
+	private $provinces_names;
+	/**
+	 * legacy settings, from version less than 2.0.0
+	 *
+	 * @since 2.0.0
+	 */
+	private $legacy = array(
+		'lower-silesia'     => 'dolnoslaskie',
+		'kuyavia-pomerania' => 'kujawsko_pomorskie',
+		'lublin'            => 'lubelskie',
+		'lubusz'            => 'lubuskie',
+		'lodzkie'           => 'lodzkie',
+		'lesser-poland'     => 'malopolskie',
+		'masovia'           => 'mazowieckie',
+		'opole'             => 'opolskie',
+		'subcarpathia'      => 'podkarpackie',
+		'podlaskie'         => 'podlaskie',
+		'pomerania'         => 'pomorskie',
+		'swietokrzyskie'    => 'slaskie',
+		'silesia'           => 'swietokrzyskie',
+		'warmia-masuria'    => 'warminsko_mazurskie',
+		'greater-poland'    => 'wielkopolskie',
+		'west-pomerania'    => 'zachodniopomorskie',
+	);
 
 	public function __construct() {
 		parent::__construct();
@@ -46,10 +75,33 @@ class iworks_interactive_polish_map extends iworks {
 		$this->version    = 'PLUGIN_VERSION';
 		$this->capability = apply_filters( 'interactive_polish_map_capability', 'manage_options' );
 		/**
+		 * provinces names
+		 */
+		$this->provinces_names = array(
+			'lower-silesia'     => __( 'Lower-Silesia', 'interactive-polish-map' ),
+			'kuyavia-pomerania' => __( 'Kuyavia-Pomerania', 'interactive-polish-map' ),
+			'lublin'            => __( 'Lublin', 'interactive-polish-map' ),
+			'lubusz'            => __( 'Lubusz', 'interactive-polish-map' ),
+			'lodzkie'           => __( 'Lodzkie', 'interactive-polish-map' ),
+			'lesser-poland'     => __( 'Lesser-Poland', 'interactive-polish-map' ),
+			'masovia'           => __( 'Masovia', 'interactive-polish-map' ),
+			'opole'             => __( 'Opole', 'interactive-polish-map' ),
+			'subcarpathia'      => __( 'Subcarpathia', 'interactive-polish-map' ),
+			'podlaskie'         => __( 'Podlaskie', 'interactive-polish-map' ),
+			'pomerania'         => __( 'Pomerania', 'interactive-polish-map' ),
+			'swietokrzyskie'    => __( 'Swietokrzyskie', 'interactive-polish-map' ),
+			'silesia'           => __( 'Silesia', 'interactive-polish-map' ),
+			'warmia-masuria'    => __( 'Warmia-Masuria', 'interactive-polish-map' ),
+			'greater-poland'    => __( 'Greater-Poland', 'interactive-polish-map' ),
+			'west-pomerania'    => __( 'West-Pomerania', 'interactive-polish-map' ),
+		);
+		/**
 		 * WordPress Hooks
 		 */
 		add_action( 'admin_init', array( $this, 'admin_init' ) );
-		add_action( 'init', array( $this, 'init' ) );
+		add_action( 'wp_enqueue_scripts', array( $this, 'register_assets' ), 0 );
+		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_assets' ) );
+		add_action( 'widgets_init', array( $this, 'register_widgets' ) );
 		/**
 		 * WordPress Shortcodes
 		 */
@@ -60,9 +112,44 @@ class iworks_interactive_polish_map extends iworks {
 		 */
 		add_filter( 'iworks_rate_notice_logo_style', array( $this, 'filter_plugin_logo' ), 10, 2 );
 		add_filter( 'iworks_rate_settings_page_url_' . 'interactive-polish-map', array( $this, 'filter_get_setting_page_url' ) );
+		/**
+		 * iWorks Interactive Polish Map
+		 */
+		add_filter( 'iworks_interactive_polish_map_menu_legacy', array( $this, 'convert_legacy_menu_value' ) );
 	}
 
-	public function shortcode() {
+	public function register_widgets() {
+		require_once dirname( __FILE__ ) . '/interactive-polish-map/class-interactive-polish-map-widget.php';
+		register_widget( 'InteractivePolishMapWidget' );
+	}
+
+	public function shortcode( $atts ) {
+		$args = shortcode_atts(
+			array(
+				'id'    => 0,
+				'menu'  => null,
+				'style' => null,
+			),
+			$atts
+		);
+		/**
+		 * settings
+		 */
+		$class_base = 'interactive-polish-map';
+		$classes    = array(
+			$class_base,
+		);
+		/**
+		 * provinces list UL
+		 */
+		if ( empty( $args['menu'] ) ) {
+			$args['menu'] = $this->options->get_option( 'menu' );
+		}
+		$args['menu'] = $this->convert_legacy_menu_value( $args['menu'] );
+		$classes[]    = sprintf( '%s-%s', $class_base, $args['menu'] );
+		if ( preg_match( '/^after\-/', $args['menu'] ) ) {
+			$classes[] = sprintf( '%s-%s', $class_base, 'after' );
+		}
 		/**
 		 * get map
 		 */
@@ -81,75 +168,76 @@ class iworks_interactive_polish_map extends iworks {
 		/**
 		 * provinces colors
 		 */
-		$style          = $this->options->get_option( 'style' );
-		$color1         = $this->options->get_option( 'color1' );
-		$color1_opacity = intval( $this->options->get_option( 'color1_opacity' ) ) / 100;
-
+		$style = $this->options->get_option( 'style' );
+		$color = $this->options->get_option( 'color' );
 		switch ( $style ) {
 			case 'own':
-				if ( 1 > $color1_opacity ) {
-					$color1 = $this->hex2rgba( $color1, $color1_opacity );
-				}
-				$map = preg_replace( '/"#75c5f0"/', $color1, $map );
-				$map = preg_replace( '/"#9ae095"/', $color1, $map );
-				$map = preg_replace( '/"#fed979"/', $color1, $map );
-				$map = preg_replace( '/"#fffa5e"/', $color1, $map );
-				$map = preg_replace( '/"#f9cdf4"/', $color1, $map );
+				$map = preg_replace( '/"#75c5f0"/', $color, $map );
+				$map = preg_replace( '/"#9ae095"/', $color, $map );
+				$map = preg_replace( '/"#fed979"/', $color, $map );
+				$map = preg_replace( '/"#fffa5e"/', $color, $map );
+				$map = preg_replace( '/"#f9cdf4"/', $color, $map );
 				break;
 			case 'auto':
-				$range     = 6;
-				$color1    = $this->hex2hsl( $color1 );
-				$color1[2] = max( ( 2 * $range ), min( ( 100 - 2 * $range ), $color1[2] ) );
-				$color     = sprintf( '"hsl( %d, %d%%, %d%% )"', $color1[0], $color1[1], $color1[2] );
-				$map       = preg_replace( '/"#75c5f0"/', $color, $map );
-				$color     = sprintf( '"hsl( %d, %d%%, %d%% )"', $color1[0], $color1[1], $color1[2] + $range );
-				$map       = preg_replace( '/"#9ae095"/', $color, $map );
-				$color     = sprintf( '"hsl( %d, %d%%, %d%% )"', $color1[0], $color1[1], $color1[2] + ( 2 * $range ) );
-				$map       = preg_replace( '/"#fed979"/', $color, $map );
-				$color     = sprintf( '"hsl( %d, %d%%, %d%% )"', $color1[0], $color1[1], $color1[2] - $range );
-				$map       = preg_replace( '/"#fffa5e"/', $color, $map );
-				$color     = sprintf( '"hsl( %d, %d%%, %d%% )"', $color1[0], $color1[1], $color1[2] - ( 2 * $range ) );
-				$map       = preg_replace( '/"#f9cdf4"/', $color, $map );
+				$range    = 6;
+				$color    = $this->hex2hsl( $color );
+				$color[2] = max( ( 2 * $range ), min( ( 100 - 2 * $range ), $color[2] ) );
+				$color1   = sprintf( '"hsl( %d, %d%%, %d%% )"', $color[0], $color[1], $color[2] );
+				$map      = preg_replace( '/"#75c5f0"/', $color1, $map );
+				$color1   = sprintf( '"hsl( %d, %d%%, %d%% )"', $color[0], $color[1], $color[2] + $range );
+				$map      = preg_replace( '/"#9ae095"/', $color1, $map );
+				$color1   = sprintf( '"hsl( %d, %d%%, %d%% )"', $color[0], $color[1], $color[2] + ( 2 * $range ) );
+				$map      = preg_replace( '/"#fed979"/', $color1, $map );
+				$color1   = sprintf( '"hsl( %d, %d%%, %d%% )"', $color[0], $color[1], $color[2] - $range );
+				$map      = preg_replace( '/"#fffa5e"/', $color1, $map );
+				$color1   = sprintf( '"hsl( %d, %d%%, %d%% )"', $color[0], $color[1], $color[2] - ( 2 * $range ) );
+				$map      = preg_replace( '/"#f9cdf4"/', $color1, $map );
 				break;
 		}
 		/**
 		 * styles
 		 */
-		$styles = array(
-			sprintf( 'width:%dpx', $this->options->get_option( 'size' ) ),
-			sprintf( 'height:%dpx', $this->options->get_option( 'size' ) ),
-		);
-
-		$map     = sprintf(
-			'<div class="interactive_polish_map-map" styles="%s">%s</div>',
+		$styles = array();
+		if ( empty( $args['style'] ) ) {
+			$styles[] = sprintf( 'max-width:%dpx', $this->options->get_option( 'size' ) );
+		} else {
+			$styles[] = sprintf( 'max-width:%dpx', $args['style'] );
+		}
+		$map = sprintf(
+			'<div class="%s-map" style="%s">%s</div>',
+			esc_attr( $class_base ),
 			esc_attr( implode( ';', $styles ) ),
 			$map
 		);
-		$content = sprintf(
-			'<div id="ipm_type_%d">%s<ul id="w" class="%s">',
-			get_option( 'ipm_type', 500 ),
-			$map,
-			get_option( 'ipm_menu', 'ponizej' )
-		);
 		/**
-		 * list
+		 * legacy list
 		 */
-		$provinces = $this->get_provinces();
-		$i         = 1;
-		foreach ( $provinces as $key => $value ) {
-			$url = get_option( 'ipm_districts_' . $key, '%' );
-			if ( ! $url ) {
-				$url = '#';
+		$list = '';
+		if ( 0 === $args['id'] ) {
+			$list .= sprintf( '<ul class="%s-menu">', $class_base );
+			$i     = 1;
+			foreach ( $this->legacy as $key => $legacy_name ) {
+				$url   = get_option( 'ipm_districts_' . $legacy_name, sprintf( '#%s', $key ) );
+				$list .= sprintf(
+					'<li><a href="%s" title="%s" data-target="%s">%s</a></li>',
+					esc_attr( $url ),
+					esc_attr( $this->provinces_names[ $key ] ),
+					esc_html( $key ),
+					esc_html( $this->provinces_names[ $key ] )
+				);
+				$re    = sprintf( '/href="#%s"/', $key );
+				$value = sprintf( 'href="%s"', esc_attr( $url ) );
+				$map   = preg_replace( $re, $value, $map );
 			}
-			$content .= sprintf(
-				'<li id="w%d"><a href="%s" title="%s">%s</a></li>',
-				$i++,
-				$url,
-				$value,
-				$value
-			);
+			$list .= '</ul>';
 		}
-		$content .= '</ul></div>';
+		/**
+		 * glue it all
+		 */
+		$content  = sprintf( '<div class="%s">', esc_attr( implode( ' ', $classes ) ) );
+		$content .= $map;
+		$content .= $list;
+		$content .= '</div>';
 		return $content;
 	}
 
@@ -158,11 +246,28 @@ class iworks_interactive_polish_map extends iworks {
 		// add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ) );
 	}
 
-	public function init() {
-		wp_register_script( 'interactive_polish_map', plugins_url( '/js/interactive_polish_map.js', __FILE__ ), array( 'jquery' ) );
-		wp_enqueue_script( 'interactive_polish_map' );
-		wp_register_style( 'myStyleSheets', plugins_url( '/style/interactive_polish_map.css', __FILE__ ) );
-		wp_enqueue_style( 'myStyleSheets' );
+	/**
+	 * register styles
+	 *
+	 * @since 2.0.0
+	 */
+	public function register_assets() {
+		wp_register_style(
+			$this->options->get_option_name( 'frontend' ),
+			sprintf( plugins_url( '/assets/styles/frontend%s.css', $this->base ), $this->dev ? '' : '.min' ),
+			array(),
+			$this->version
+		);
+	}
+
+	public function enqueue_assets() {
+		if ( is_singular() ) {
+			wp_enqueue_style( $this->options->get_option_name( 'frontend' ) );
+		}
+		// wp_register_script( 'interactive_polish_map', plugins_url( '/js/interactive_polish_map.js', __FILE__ ), array( 'jquery' ) );
+		// wp_enqueue_script( 'interactive_polish_map' );
+		// wp_register_style( 'myStyleSheets', plugins_url( '/style/interactive_polish_map.css', __FILE__ ) );
+		// wp_enqueue_style( 'myStyleSheets' );
 	}
 
 	/**
@@ -268,7 +373,7 @@ class iworks_interactive_polish_map extends iworks {
 			switch ( $max ) {
 				case $color_red:
 					$hue = 60 * fmod( ( ( $color_green - $color_blue ) / $d ), 6 );
-					if ( $color_blue > $g ) {
+					if ( $color_blue > $color_green ) {
 						$hue += 360;
 					}
 					break;
@@ -280,8 +385,25 @@ class iworks_interactive_polish_map extends iworks {
 					break;
 			}
 		}
-
 		return array( round( $hue, 2 ), 100 * round( $saturation, 2 ), 100 * round( $lightness, 2 ) );
+	}
+
+	/**
+	 * Legacy menu position
+	 */
+	public function convert_legacy_menu_value( $position ) {
+		$legacy = array(
+			'ukryta'               => 'hide',
+			'po_lewej'             => 'left',
+			'po_prawej'            => 'right',
+			'ponizej'              => 'after',
+			'ponizej dwie_kolumny' => 'after-two-columns',
+			'ponizej trzy_kolumny' => 'after-three-columns',
+		);
+		if ( isset( $legacy[ $position ] ) ) {
+			return $legacy[ $position ];
+		}
+		return $position;
 	}
 
 }

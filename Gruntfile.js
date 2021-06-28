@@ -27,22 +27,23 @@ module.exports = function(grunt) {
             'assets/scripts/admin.js': [
                 'assets/scripts/admin/src/common.js',
                 'assets/scripts/admin/src/datepicker.js',
-                'assets/scripts/admin/src/expence.js',
+                'assets/scripts/admin/src/map.js',
                 'assets/scripts/admin/src/select2.js'
             ]
         },
 
         // SASS files to process. Resulting CSS files will be minified as well.
         css_files_compile: {
-            'assets/styles/admin/post-type-expence.css': 'assets/sass/admin/post-type-expence.scss',
-            'assets/styles/frontend/blocks/expences.css': 'assets/sass/frontend/blocks/expences.scss',
+            // 'assets/styles/admin/post-type-map.css': 'assets/sass/admin/post-type-map.scss',
+            // 'assets/styles/frontend/blocks/map.css': 'assets/sass/frontend/blocks/map.scss',
+            'assets/styles/frontend/map.css': 'assets/sass/frontend/map.scss',
             // 'assets/styles/frontend/post-type-result.css': 'assets/sass/frontend/post-type-result.scss',
             // 'assets/styles/frontend/post-type-person.css': 'assets/sass/frontend/post-type-person.scss',
             // 'assets/styles/frontend/post-type-boat.css': 'assets/sass/frontend/post-type-boat.scss',
         },
         css_files_concat: {
             'assets/styles/admin.css': ['assets/styles/admin/*.css'],
-            // 'assets/styles/frontend.css': [ 'assets/styles/frontend/*.css' ]
+            'assets/styles/frontend.css': [ 'assets/styles/frontend/*.css' ]
         },
 
         // Regex patterns to exclude from transation.
