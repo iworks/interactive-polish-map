@@ -1,25 +1,18 @@
 === Interactive Polish Map  ===
 Contributors: iworks
-Donate link: https://ko-fi.com/iworks
+Donate link: https://ko-fi.com/iworks?utm_source=interactive-polish-map&utm_medium=readme-donate
 Tags: map, mapa, polish, polska, interactive, mapa polski, interaktywna mapa polski, mapa województw
-Requires at least: 3.4
-Tested up to: 4.7
+Requires at least: 5.5
+Tested up to: 5.8
 Stable tag: 1.1
 
 Interactive map of Poland, which allows you to attach links to the region.
 
 == Description ==
 
-The best way to convert a list of Polish regions into stylish clickable map.
-It doesn't need Flash Player or any additional plug-ins!
+The best way to convert a list of Polish regions into stylish clickable SVG map.
 
-* hand coded, valid xHTML and CSS
-* preloader
-* quasi-tooltips or list of countries
-* no flash player required!
-* on author page available full editable PSD with source file
-
-Plugin based on: [Poland – CSSMap plugin](https://cssmapsplugin.com/get/poland/).
+The map is fully responsible - no any action from you is required.
 
 == Installation ==
 

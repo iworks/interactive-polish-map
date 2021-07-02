@@ -1,0 +1,29 @@
+{
+	"apiVersion": 2,
+	"name": "interactive-polish-map/map",
+	"title": "Map",
+	"category": "widgets",
+	"description": "Display interactive map of Poland.",
+	"textdomain": "interactive-polish-map",
+	"attributes": {
+		"size": {
+			"type": "integer",
+			"default": 400
+		},
+		"menu": {
+			"type": "string",
+			"default": "hide"
+		}
+	},
+	"supports": {
+		"align": true,
+		"html": false
+	},
+	"editorScript": "ipm-block-map-editor",
+	"editorStyle": "ipm-block-map-editor",
+	"style": "wp-block-map",
+    "example": {
+        "size":400,
+        "menu": "hide"
+    }
+}

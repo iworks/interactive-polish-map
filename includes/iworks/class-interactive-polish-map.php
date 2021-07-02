@@ -99,7 +99,7 @@ class iworks_interactive_polish_map extends iworks {
 		 * WordPress Hooks
 		 */
 		add_action( 'admin_init', array( $this, 'admin_init' ) );
-		add_action( 'wp_enqueue_scripts', array( $this, 'register_assets' ), 0 );
+		add_action( 'init', array( $this, 'register_assets' ), 0 );
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_assets' ) );
 		add_action( 'widgets_init', array( $this, 'register_widgets' ) );
 		/**
@@ -124,7 +124,7 @@ class iworks_interactive_polish_map extends iworks {
 	}
 
 	public function shortcode( $atts ) {
-		$args = shortcode_atts(
+		$args         = shortcode_atts(
 			array(
 				'id'    => 0,
 				'menu'  => null,
@@ -132,6 +132,7 @@ class iworks_interactive_polish_map extends iworks {
 			),
 			$atts
 		);
+		$args['menu'] = $this->convert_legacy_menu_value( $args['menu'] );
 		/**
 		 * settings
 		 */
@@ -213,7 +214,7 @@ class iworks_interactive_polish_map extends iworks {
 		 * legacy list
 		 */
 		$list = '';
-		if ( 0 === $args['id'] ) {
+		if ( 'hide' !== $args['menu'] && 0 === $args['id'] ) {
 			$list .= sprintf( '<ul class="%s-menu">', $class_base );
 			$i     = 1;
 			foreach ( $this->legacy as $key => $legacy_name ) {
@@ -234,9 +235,14 @@ class iworks_interactive_polish_map extends iworks {
 		/**
 		 * glue it all
 		 */
-		$content  = sprintf( '<div class="%s">', esc_attr( implode( ' ', $classes ) ) );
+		$content = sprintf( '<div class="%s">', esc_attr( implode( ' ', $classes ) ) );
+		if ( 'before' === $args['menu'] ) {
+			$content .= $list;
+		}
 		$content .= $map;
-		$content .= $list;
+		if ( 'before' !== $args['menu'] ) {
+			$content .= $list;
+		}
 		$content .= '</div>';
 		return $content;
 	}
@@ -258,16 +264,24 @@ class iworks_interactive_polish_map extends iworks {
 			array(),
 			$this->version
 		);
+		$file    = plugins_url( '/blocks/map/editor.js', $this->base );
+		$handler = 'ipm-block-map-editor';
+		wp_register_script(
+			$handler,
+			$file,
+			array( 'wp-editor', 'wp-blocks', 'wp-element', 'wp-i18n', 'wp-block-editor' ),
+			$this->version
+		);
+		wp_set_script_translations(
+			$handler,
+			'interactive-polish-map',
+			dirname( $this->base ) . '/languages/'
+		);
+
 	}
 
 	public function enqueue_assets() {
-		if ( is_singular() ) {
-			wp_enqueue_style( $this->options->get_option_name( 'frontend' ) );
-		}
-		// wp_register_script( 'interactive_polish_map', plugins_url( '/js/interactive_polish_map.js', __FILE__ ), array( 'jquery' ) );
-		// wp_enqueue_script( 'interactive_polish_map' );
-		// wp_register_style( 'myStyleSheets', plugins_url( '/style/interactive_polish_map.css', __FILE__ ) );
-		// wp_enqueue_style( 'myStyleSheets' );
+		wp_enqueue_style( $this->options->get_option_name( 'frontend' ) );
 	}
 
 	/**
