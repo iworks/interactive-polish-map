@@ -72,12 +72,6 @@ $iworks_interactive_polish_map_options = iworks_interactive_polish_map_get_optio
 global $iworks_interactive_polish_map;
 $iworks_interactive_polish_map = new iworks_interactive_polish_map();
 
-/**
- * load blocks
- */
-require_once $base . '/blocks/map.php';
-
-
 function iworks_interactive_polish_map_get_options_object() {
 	global $iworks_interactive_polish_map_options;
 	if ( is_object( $iworks_interactive_polish_map_options ) ) {

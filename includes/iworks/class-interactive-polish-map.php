@@ -100,6 +100,7 @@ class iworks_interactive_polish_map extends iworks {
 		 */
 		add_action( 'admin_init', array( $this, 'admin_init' ) );
 		add_action( 'init', array( $this, 'register_assets' ), 0 );
+		add_action( 'init', array( $this, 'register_blocks' ) );
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_assets' ) );
 		add_action( 'widgets_init', array( $this, 'register_widgets' ) );
 		/**
@@ -144,10 +145,9 @@ class iworks_interactive_polish_map extends iworks {
 		 * provinces list UL
 		 */
 		if ( empty( $args['menu'] ) ) {
-			$args['menu'] = $this->options->get_option( 'menu' );
+			$args['menu'] = $this->convert_legacy_menu_value( $this->options->get_option( 'menu' ) );
 		}
-		$args['menu'] = $this->convert_legacy_menu_value( $args['menu'] );
-		$classes[]    = sprintf( '%s-%s', $class_base, $args['menu'] );
+		$classes[] = sprintf( '%s-%s', $class_base, $args['menu'] );
 		if ( preg_match( '/^after\-/', $args['menu'] ) ) {
 			$classes[] = sprintf( '%s-%s', $class_base, 'after' );
 		}
@@ -264,8 +264,22 @@ class iworks_interactive_polish_map extends iworks {
 			array(),
 			$this->version
 		);
-		$file    = plugins_url( '/blocks/map/editor.js', $this->base );
+		/**
+		 * BLock: map: editor.css
+		 */
+		$file = plugins_url( '/assets/blocks/map/editor.css', $this->base );
+		wp_register_style(
+			$this->options->get_option_name( 'map-editor' ),
+			$file,
+			array(),
+			$this->version
+		);
+		/**
+		 * block: map: editor.js
+		 */
+		$file    = plugins_url( '/assets/blocks/map/editor.js', $this->base );
 		$handler = 'ipm-block-map-editor';
+		$handler = $this->options->get_option_name( 'map-editor' );
 		wp_register_script(
 			$handler,
 			$file,
@@ -420,5 +434,44 @@ class iworks_interactive_polish_map extends iworks {
 		return $position;
 	}
 
+	/**
+	 * Registers the `ipm/map` block on server.
+	 */
+	public function register_blocks() {
+		$file   = dirname( $this->base ) . '/assets/blocks/map';
+		$result = register_block_type_from_metadata(
+			$file,
+			array(
+				'render_callback' => array( $this, 'block_render_map' ),
+			)
+		);
+	}
+
+	/**
+	 * Renders the `ipm/map` block on server.
+	 *
+	 * @param array $attributes The block attributes.
+	 *
+	 * @return string Returns the map list/dropdown markup.
+	 */
+	public function block_render_map( $attributes ) {
+		static $block_id = 0;
+		$block_id++;
+		$attributes         = wp_parse_args(
+			$attributes,
+			array(
+				'style' => 400,
+				'menu'  => 'hide',
+			)
+		);
+		$wrapper_markup     = '<div %1$s>%2$s</div>';
+		$items_markup       = $this->Shortcode( $attributes );
+		$wrapper_attributes = get_block_wrapper_attributes();
+		return sprintf(
+			$wrapper_markup,
+			$wrapper_attributes,
+			$items_markup
+		);
+	}
 }
 
