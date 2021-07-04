@@ -27,7 +27,7 @@ module.exports = function(grunt) {
             'assets/scripts/admin.js': [
                 // 'assets/scripts/admin/src/common.js',
                 // 'assets/scripts/admin/src/datepicker.js',
-                'assets/scripts/admin/src/map.js',
+                // 'assets/scripts/admin/src/map.js',
                 // 'assets/scripts/admin/src/select2.js'
             ]
         },
