@@ -1,12 +1,12 @@
 === Interactive Polish Map  ===
 Contributors: iworks
 Donate link: https://ko-fi.com/iworks?utm_source=interactive-polish-map&utm_medium=readme-donate
-Tags: map, mapa, polish, polska, interactive, mapa polski, interaktywna mapa polski, mapa województw
+Tags: map, polish, interactive, svg, responsible
 Requires at least: 5.5
 Tested up to: 5.8
-Stable tag: 1.1
+Stable tag: PLUGIN_VERSION
 
-Interactive map of Poland, which allows you to attach links to the region.
+PLUGIN_DESCRIPTION
 
 == Description ==
 
@@ -51,6 +51,13 @@ There are 3 ways to install this plugin:
 1. Place **[mapa-polski]** in your post or page.
 
 == Changelog == 
+
+= 2.0.0 - 2021-07-08 =
+
+* Replaced png by svg image.
+* Added Gutenberg block.
+* Updated iWorks Rate to 1.0.3.
+* Updated iWorks Options to 2.6.9.
 
 = 1.1 - 2015-08-08 =
 
