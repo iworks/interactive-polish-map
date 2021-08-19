@@ -99,6 +99,7 @@ class iworks_interactive_polish_map extends iworks {
 		 * WordPress Hooks
 		 */
 		add_action( 'admin_init', array( $this, 'admin_init' ) );
+		add_action( 'init', array( $this, 'register_post_type' ), 0 );
 		add_action( 'init', array( $this, 'register_assets' ), 0 );
 		add_action( 'init', array( $this, 'register_blocks' ) );
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_assets' ) );
@@ -117,6 +118,10 @@ class iworks_interactive_polish_map extends iworks {
 		 * iWorks Interactive Polish Map
 		 */
 		add_filter( 'iworks_interactive_polish_map_menu_legacy', array( $this, 'convert_legacy_menu_value' ) );
+	}
+
+	public function register_post_type() {
+		new iworks_posttype_map( $this->options );
 	}
 
 	public function register_widgets() {

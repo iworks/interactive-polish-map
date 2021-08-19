@@ -45,6 +45,12 @@ if ( ! class_exists( 'iworks_interactive_polish_map' ) ) {
 	require_once $includes . '/iworks/class-interactive-polish-map.php';
 }
 /**
+ * require: Iworksinteractive-polish-map Class
+ */
+if ( ! class_exists( 'iworks_posttype_map' ) ) {
+	require_once $includes . '/iworks/posttypes/class-iworks-posttype-map.php';
+}
+/**
  * configuration
  */
 require_once $base . '/etc/options.php';
