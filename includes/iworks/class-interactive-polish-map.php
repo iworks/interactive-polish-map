@@ -34,6 +34,11 @@ class iworks_interactive_polish_map extends iworks {
 	private $blocks;
 	private $capability;
 	private $settings_page;
+
+
+	private $db_version = '20210819';
+
+
 	/**
 	 * names
 	 *
@@ -99,6 +104,7 @@ class iworks_interactive_polish_map extends iworks {
 		 * WordPress Hooks
 		 */
 		add_action( 'admin_init', array( $this, 'admin_init' ) );
+		add_action( 'admin_init', array( $this, 'check_for_upgrade' ) );
 		add_action( 'init', array( $this, 'register_post_type' ), 0 );
 		add_action( 'init', array( $this, 'register_assets' ), 0 );
 		add_action( 'init', array( $this, 'register_blocks' ) );
@@ -477,6 +483,55 @@ class iworks_interactive_polish_map extends iworks {
 			$wrapper_attributes,
 			$items_markup
 		);
+	}
+
+	public function check_for_upgrade() {
+		$update_option = false;
+		$version       = intval( $this->options->get_option( 'version' ) );
+		if ( $version < $this->db_version ) {
+			$maybe_migrate = false;
+			foreach ( $this->legacy as $key => $legacy_name ) {
+				if ( $maybe_migrate ) {
+					continue;
+				}
+				$url = get_option( 'ipm_districts_' . $legacy_name, sprintf( '#%s', $key ) );
+				if ( ! empty( $url ) ) {
+					$maybe_migrate = true;
+				}
+			}
+			if ( $maybe_migrate ) {
+				add_action( 'admin_notices', array( $this, 'admin_notice_import' ) );
+			} else {
+				$update_option = true;
+			}
+		}
+		if ( $update_option ) {
+			$name = $this->options->get_option_name( 'version' );
+			update_option( $name, $this->db_version, 'no' );
+		}
+	}
+
+	public function admin_notice_import() {
+		?>
+	<div class="notice notice-info">
+		<p><?php _e( 'There is legacy configuration, which can be imported in new format.', 'interactive-polish-map' ); ?></p>
+		<?php
+		printf(
+			'<p><a href="%s" class="button">%s</a></p>',
+			add_query_arg(
+				array(
+					'page'     => 'ipm_index',
+					'import'   => 'legacy',
+					'_wpnonce' => wp_create_nonce( 'import' ),
+				),
+				'themes.php'
+			),
+			__( 'Import', 'interactive-polish-map' )
+		);
+		?>
+	</div>
+		<?php
+
 	}
 }
 

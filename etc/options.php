@@ -8,8 +8,8 @@ function iworks_interactive_polish_map_options() {
 	$options['index'] = array(
 		'use_tabs'        => false,
 		'version'         => '0.0',
-		'page_title'      => __( 'Interactive Polish Map', 'interactive-polish-map' ),
-		'menu_title'      => __( 'Polish Map', 'interactive-polish-map' ),
+		'page_title'      => __( 'Default maps appearance', 'interactive-polish-map' ),
+		'menu_title'      => __( 'Maps', 'interactive-polish-map' ),
 		'menu'            => 'theme',
 		'enqueue_scripts' => array(
 			'interactive_polish_map-admin-js',
