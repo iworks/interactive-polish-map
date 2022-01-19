@@ -1,12 +1,12 @@
 {
-    "name": "build-a-house",
-    "title": "Build a Houser",
+    "name": "interactive-polish-map",
+    "title": "Interactive Polish Map",
     "homepage": "https://iworks.pl/",
-    "version": "1.0.2",
-    "description": "",
+    "version": "2.0.0",
+    "description": "The best way to convert a list of Polish regions into stylish clickable SVG map.",
     "repository": {
         "type": "git",
-        "url": "git@github.com:iworks/build-a-house.git"
+        "url": "git@bitbucket.org:iworks-pl/interactive-polish-map.git"
     },
     "author": "iworks",
     "keywords": [],

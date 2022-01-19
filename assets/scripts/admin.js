@@ -1,4 +1,4 @@
-/*! Build a Houser - v1.0.2
+/*! Interactive Polish Map - v2.0.0
  * https://iworks.pl/
- * Copyright (c) 2021; * Licensed GPLv2+
+ * Copyright (c) 2022; * Licensed GPLv2+
  */

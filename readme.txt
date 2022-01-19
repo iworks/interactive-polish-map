@@ -2,8 +2,8 @@
 Contributors: iworks
 Donate link: https://ko-fi.com/iworks?utm_source=interactive-polish-map&utm_medium=readme-donate
 Tags: map, polish, interactive, svg, responsible
-Requires at least: 5.5
-Tested up to: 5.8
+Requires at least: 5.7
+Tested up to: 5.9
 Stable tag: PLUGIN_VERSION
 
 PLUGIN_DESCRIPTION
@@ -52,28 +52,27 @@ There are 3 ways to install this plugin:
 
 == Changelog == 
 
-= 2.0.0 - 2021-07-08 =
+= 2.0.1 - 2021-01-20 =
+* Updated iWorks Options to 2.7.3.
+* Updated iWorks Rate to 2.0.6.
 
+= 2.0.0 - 2021-07-08 =
 * Replaced png by svg image.
 * Added Gutenberg block.
 * Updated iWorks Rate to 1.0.3.
 * Updated iWorks Options to 2.6.9.
 
 = 1.1 - 2015-08-08 =
-
 * IMPROVEMENT: Update method of WP_Widget - remove deprecated constructor.
 * BUGFIX: Handle some notices about undefined variables.
 
 = 1.0.2 - 2012-03-03 =
-
 * BUGFIX: Shortcode always place map on top of entry (echo was used instead of return)
 
 = 1.0.1 - 2011-02-04 =
-
 * BUGFIX: Shortcode always place map on top of entry (echo was used instead of return)
 
 = 1.0 - 2011-02-04 =
-
 * NEW: Added widget.
 * NEW: Added option to choose list.
 * NEW: Added Polish translation.
@@ -82,6 +81,5 @@ There are 3 ways to install this plugin:
 * Changed: css files was merged to one.
 
 = 0.1 - 2011-01-29 =
-
 * NEW : Init revision.
 
