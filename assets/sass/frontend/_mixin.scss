@@ -1,0 +1,20 @@
+$version: PLUGIN_VERSION;
+
+$width_s: 460px;
+$width_m: 768px;
+
+@mixin reset_min() {
+    margin: 0;
+    outline: 0;
+    padding: 0;
+}
+
+@mixin reset_ul() {
+    @include reset_min;
+    list-style: none;
+}
+
+@mixin random_border_color() {
+    border: 1px solid rgb(random(255),random(255),random(255));
+}
+

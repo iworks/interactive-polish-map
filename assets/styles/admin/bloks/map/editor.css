@@ -1,0 +1,9 @@
+.wp-block-interactive-polish-map-map {
+  background-repeat: no-repeat;
+  background-size: auto 1em;
+  background-image: url(../../../../images/logo.svg);
+  background-position: 100% 0;
+}
+.wp-block-interactive-polish-map-map .components-input-control__container select.components-select-control__input {
+  height: 2.6em;
+}

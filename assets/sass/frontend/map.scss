@@ -1,0 +1,61 @@
+@import '_mixin';
+
+.interactive-polish-map {
+    &-map {
+        path {
+            &:hover {
+                opacity: .8;
+            }
+        }
+    }
+    @media screen and ( min-width: #{ $width_m } ) {
+        &-left,
+        &-right {
+            display: grid;
+            column-gap: 1em;
+            grid-template-columns: repeat( 2, 1fr );
+        }
+        &-left {
+            .interactive-polish-map-map {
+                grid-column-start: 2;
+                grid-column-end: 2;
+            }
+            .interactive-polish-map-menu {
+                grid-column-start: 1;
+                grid-column-end: 1;
+                grid-row-start: 1;
+            }
+        }
+    }
+    &-map,
+    svg {
+        max-width: 100%;
+    }
+    &-after {
+        .interactive-polish-map-map {
+            margin: 0 auto;
+        }
+    }
+    @media screen and ( min-width: #{ $width_s } ) {
+        &-after {
+            &-two-columns,
+            &-three-columns {
+                ul {
+                    display: grid;
+                    column-gap: 1em;
+                    grid-template-columns: repeat( 2, 1fr );
+                }
+            }
+            @media screen and ( min-width: #{ $width_m } ) {
+                &-three-columns {
+                    ul {
+                        grid-template-columns: repeat( 3, 1fr );
+                    }
+                }
+            }
+        }
+    }
+    ul {
+        @include reset_ul;
+    }
+}
