@@ -57,7 +57,9 @@ There are 3 ways to install this plugin:
 
 = 2.0.2 - 2023-03-13 =
 * Updated iWorks Options to 2.9.2.
-* Updated iWorks Rate to 2.1.8.
+* Updated iWorks Rate to 2.1.9.
+* The function `strip_tags()` has been replaced by the function `wp_strip_all_tags()`.
+* The function `rand()` has been replaced by the function `wp_rand()`.
 
 = 2.0.1 - 2021-01-20 =
 * Updated iWorks Options to 2.7.3.
