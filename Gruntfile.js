@@ -42,54 +42,29 @@ module.exports = function(grunt) {
             'assets/styles/frontend.css': [ 'assets/styles/frontend/*.css' ]
         },
 
-        // Regex patterns to exclude from transation.
-        translation: {
-            ignore_files: [
-                '.git*',
-                'inc/external/.*', // External libraries.
-                'node_modules/.*',
-                'release/.*', // Temp release files.
-                '.sass-cache/.*',
-                'tests/.*', // Unit testing.
-            ],
-            include: [
-                '*.php',
-                'assets/.*/.*php$',
-                'etc/.*php$',
-                'assets/blocks/*.js',
-            ],
-            pot_dir: 'languages/', // With trailing slash.
-            textdomain: '<%= pkg.name %>',
-        },
-
         dev_plugin_file: '<%= pkg.name %>.php',
         dev_plugin_dir: '<%= pkg.name %>/',
 
         // BUILD patterns to exclude code for specific builds.
         replaces: {
-            patterns: [{
-                match: /PLUGIN_VERSION/g,
-                replace: '<%= pkg.version %>'
-            }, {
-                match: /BUILDTIME/g,
-                replace: buildtime
-            }, {
-                match: /PLUGIN_TILL_YEAR/g,
-                replace: buildyear
-            }, {
-                match: /PLUGIN_DESCRIPTION/g,
-                replace: '<%= pkg.description %>'
-            }, {
-                match: /PLUGIN_TITLE/g,
-                replace: '<%= pkg.title %>'
-            }, {
-                match: /IWORKS_OPTIONS_TEXTDOMAIN/g,
-                replace: '<%= pkg.name %>'
-            }, {
-                match: /IWORKS_RATE_TEXTDOMAIN/g,
-                replace: '<%= pkg.name %>'
-            }],
-
+            patterns: [
+                { match: /AUTHOR_NAME/g, replace: '<%= pkg.author[0].name %>' },
+                { match: /AUTHOR_URI/g, replace: '<%= pkg.author[0].uri %>' },
+                { match: /BUILDTIME/g, replace: buildtime },
+                { match: /IWORKS_RATE_TEXTDOMAIN/g, replace: '<%= pkg.name %>' },
+                { match: /IWORKS_OPTIONS_TEXTDOMAIN/g, replace: '<%= pkg.name %>' },
+                { match: /PLUGIN_DESCRIPTION/g, replace: '<%= pkg.description %>' },
+                { match: /PLUGIN_NAME/g, replace: '<%= pkg.name %>' },
+                { match: /PLUGIN_REQUIRES_PHP/g, replace: '<%= pkg.requires.PHP %>' },
+                { match: /PLUGIN_REQUIRES_WORDPRESS/g, replace: '<%= pkg.requires.WordPress %>' },
+                { match: /PLUGIN_TESTED_WORDPRESS/g, replace: '<%= pkg.tested.WordPress %>' },
+                { match: /PLUGIN_TAGLINE/g, replace: '<%= pkg.tagline %>' },
+                { match: /PLUGIN_TITLE/g, replace: '<%= pkg.title %>' },
+                { match: /PLUGIN_TILL_YEAR/g, replace: buildyear },
+                { match: /PLUGIN_URI/g, replace: '<%= pkg.homepage %>' },
+                { match: /PLUGIN_VERSION/g, replace: '<%= pkg.version %>' },
+                { match: /^Version: .+$/g, replace: 'Version: <%= pkg.version %>' },
+            ],
             // Files to apply above patterns to (not only php files).
             files: {
                 expand: true,
@@ -110,9 +85,25 @@ module.exports = function(grunt) {
                     '!.git/**',
                     '!stylelint.config.js',
                 ],
-                dest: './release/<%= pkg.name %>/'
+                dest: './release/<%= pkg.version %>/'
             }
-        }
+        },
+
+        // Regex patterns to exclude from transation.
+        translation: {
+            ignore_files: [
+                'README.md',
+                'node_modules/.*',
+                '(^.php)', // Ignore non-php files.
+                'inc/external/.*', // External libraries.
+                'release/.*', // Temp release files.
+                'tests/.*', // Unit testing.
+            ],
+            pot_dir: 'languages/', // With trailing slash.
+            textdomain: "<%= pkg.name %>",
+        },
+
+        dir: '<%= pkg.name %>/'
     };
 
     // Project configuration
@@ -126,7 +117,7 @@ module.exports = function(grunt) {
                 banner: '/*! <%= pkg.title %> - v<%= pkg.version %>\n' +
                     ' * <%= pkg.homepage %>\n' +
                     ' * Copyright (c) <%= grunt.template.today("yyyy") %>;' +
-                    ' * Licensed GPLv2+\n' +
+                    ' * Licensed <%= pkg.license %>\n' +
                     ' */\n'
             },
             scripts: {
@@ -134,20 +125,6 @@ module.exports = function(grunt) {
             }
         },
 
-        // CSS - concat .css source files into single .css file
-        concat_css: {
-            options: {
-                stripBanners: true,
-                banner: '/*! <%= pkg.title %> - v<%= pkg.version %>\n' +
-                    ' * <%= pkg.homepage %>\n' +
-                    ' * Copyright (c) <%= grunt.template.today("yyyy") %>;' +
-                    ' * Licensed GPLv2+\n' +
-                    ' */\n'
-            },
-            scripts: {
-                files: conf.css_files_concat
-            }
-        },
 
         // JS - Validate .js source code.
         jshint: {
@@ -173,6 +150,7 @@ module.exports = function(grunt) {
             }
         },
 
+
         // JS - Uglyfies the source code of .js files (to make files smaller).
         uglify: {
             all: {
@@ -188,7 +166,7 @@ module.exports = function(grunt) {
                     banner: '/*! <%= pkg.title %> - v<%= pkg.version %>\n' +
                         ' * <%= pkg.homepage %>\n' +
                         ' * Copyright (c) <%= grunt.template.today("yyyy") %>;' +
-                        ' * Licensed GPLv2+' +
+                        ' * Licensed <%= pkg.license %>' +
                         ' */\n',
                     mangle: {
                         except: ['jQuery']
@@ -196,90 +174,6 @@ module.exports = function(grunt) {
                 }
             }
         },
-
-
-        // TEST - Run the PHPUnit tests.
-        /* -- Not used right now...
-        phpunit: {
-        	classes: {
-        		dir: ''
-        	},
-        	options: {
-        		bin: 'phpunit',
-        		bootstrap: 'tests/php/bootstrap.php',
-        		testsuite: 'default',
-        		configuration: 'tests/php/phpunit.xml',
-        		colors: true,
-        		//tap: true,
-        		//testdox: true,
-        		//stopOnError: true,
-        		staticBackup: false,
-        		noGlobalsBackup: false
-        	}
-        },
-        */
-
-        // CSS - Compile a .scss file into a normal .css file.
-        sass: {
-            all: {
-                options: {
-                    'sourcemap=none': true, // 'sourcemap': 'none' does not work...
-                    unixNewlines: true,
-                    style: 'expanded'
-                },
-                files: conf.css_files_compile
-            }
-        },
-
-        // CSS - Automaticaly create prefixed attributes in css file if needed.
-        //	   e.g. add `-webkit-border-radius` if `border-radius` is used.
-        autoprefixer: {
-            options: {
-                browsers: ['last 2 version', 'ie 8', 'ie 9'],
-                diff: false
-            },
-            single_file: {
-                files: [{
-                    expand: true,
-                    src: ['**/*.css', '!**/*.min.css'],
-                    cwd: 'assets/styles/',
-                    dest: 'assets/styles/',
-                    ext: '.css',
-                    extDot: 'last',
-                    flatten: false
-                }]
-            }
-        },
-
-        // CSS - Required for CSS-autoprefixer and maybe some SCSS function.
-        compass: {
-            options: {},
-            server: {
-                options: {
-                    debugInfo: true
-                }
-            }
-        },
-
-        // CSS - Minify all .css files.
-        cssmin: {
-            options: {
-                banner: '/*! <%= pkg.title %> - v<%= pkg.version %>\n' +
-                    ' * <%= pkg.homepage %>\n' +
-                    ' * Copyright (c) <%= grunt.template.today("yyyy") %>;\n' +
-                    ' * Licensed GPLv2+\n' +
-                    ' */\n'
-            },
-            minify: {
-                expand: true,
-                src: ['*.css', '!*.min.css'],
-                cwd: 'assets/styles/',
-                dest: 'assets/styles/',
-                ext: '.min.css',
-                extDot: 'last'
-            }
-        },
-
 
         // WATCH - Watch filesystem for changes during development.
         watch: {
@@ -304,41 +198,6 @@ module.exports = function(grunt) {
                     src: conf.translation.pot_dir + '<%= pkg.name %>-pl_PL.po',
                     desc: conf.translation.pot_dir + '<%= pkg.name %>-pl_PL.mo'
                 }
-            }
-        },
-
-        copy: {
-            release: {
-                expand: true,
-                src: [
-                    '*',
-                    '**',
-                    '!languages/*~',
-                    '!node_modules',
-                    '!node_modules/*',
-                    '!node_modules/**',
-                    '!bitbucket-pipelines.yml',
-                    '!.idea', // PHPStorm settings
-                    '!.git',
-                    '!Gruntfile.js',
-                    '!package.json',
-                    '!package-lock.json',
-                    '!tests/*',
-                    '!tests/**',
-                    '!assets/js/src',
-                    '!assets/js/src/*',
-                    '!assets/js/src/**',
-                    '!assets/sass',
-                    '!assets/sass/*',
-                    '!assets/sass/**',
-                    '!phpcs.xml.dist',
-                    '!README.md',
-                    '!composer.json',
-                    '!composer.lock',
-                    '!stylelint.config.js'
-                ],
-                dest: './release/<%= pkg.name %>/',
-                noEmpty: true
             }
         },
 
@@ -405,6 +264,47 @@ module.exports = function(grunt) {
             }
         },
 
+        copy: {
+            release: {
+                expand: true,
+                src: [
+                    '*',
+                    '**',
+                    '!assets/js/src',
+                    '!assets/js/src/*',
+                    '!assets/js/src/**',
+                    '!assets/sass',
+                    '!assets/sass/*',
+                    '!assets/sass/**',
+                    '!bitbucket-pipelines.yml',
+                    '!composer.json',
+                    '!composer.lock',
+                    '!.git',
+                    '!.github',
+                    '!.github/*',
+                    '!.github/**',
+                    '!Gruntfile.js',
+                    '!.idea', // PHPStorm settings
+                    '!languages/*~',
+                    '!**/LICENSE',
+                    '!LICENSE',
+                    '!node_modules',
+                    '!node_modules/*',
+                    '!node_modules/**',
+                    '!package.json',
+                    '!package-lock.json',
+                    '!phpcs.xml.dist',
+                    '!**/README.md',
+                    '!README.md',
+                    '!stylelint.config.js',
+                    '!tests/*',
+                    '!tests/**',
+                ],
+                dest: './release/<%= pkg.version %>/',
+                noEmpty: true
+            },
+        }
+
     });
 
     // Test task.
@@ -413,24 +313,20 @@ module.exports = function(grunt) {
         grunt.log.writeln('Looks like grunt is installed!');
     });
 
-
     grunt.registerTask('release', 'Generating release copy', function() {
         grunt.task.run('clean');
         grunt.task.run('js');
-        grunt.task.run('css');
-        // grunt.task.run('makepot');
-        //		grunt.task.run( 'po2mo');
+        grunt.task.run('makepot');
         grunt.task.run('copy');
         grunt.task.run('replace');
         grunt.task.run('compress');
     });
+
     // Default task.
 
-    grunt.registerTask('default', ['clean', 'jshint', 'concat', 'uglify', 'concat_css', 'sass', 'autoprefixer', 'cssmin']);
     grunt.registerTask('build', ['release']);
-    grunt.registerTask('js', ['jshint', 'concat', 'uglify']);
-    grunt.registerTask('css', ['concat_css', 'sass', 'autoprefixer', 'cssmin']);
-    grunt.registerTask('i18n', ['makepot', 'po2mo']);
+    grunt.registerTask('default', ['clean', 'jshint', 'concat', 'uglify', 'makepot']);
+    grunt.registerTask('js', ['concat', 'uglify']);
     //grunt.registerTask( 'test', ['phpunit', 'jshint'] );
 
     grunt.task.run('clear');

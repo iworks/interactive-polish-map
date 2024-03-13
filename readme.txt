@@ -2,9 +2,12 @@
 Contributors: iworks
 Donate link: https://ko-fi.com/iworks?utm_source=interactive-polish-map&utm_medium=readme-donate
 Tags: map, polish, interactive, svg, responsible
-Requires at least: 5.7
-Tested up to: 5.9
+Requires at least: PLUGIN_REQUIRES_WORDPRESS
+Tested up to: PLUGIN_TESTED_WORDPRESS
 Stable tag: PLUGIN_VERSION
+Requires PHP: PLUGIN_REQUIRES_PHP
+License: GPLv3 or later
+License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
 PLUGIN_DESCRIPTION
 
@@ -51,6 +54,10 @@ There are 3 ways to install this plugin:
 1. Place **[mapa-polski]** in your post or page.
 
 == Changelog == 
+
+= 2.0.2 - 2023-03-13 =
+* Updated iWorks Options to 2.9.2.
+* Updated iWorks Rate to 2.1.8.
 
 = 2.0.1 - 2021-01-20 =
 * Updated iWorks Options to 2.7.3.
