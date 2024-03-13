@@ -51,7 +51,7 @@ class InteractivePolishMapWidget extends WP_Widget {
 	public function update( $new_instance, $old_instance ) {
 		$instance = $old_instance;
 		foreach ( array( 'title', 'type', 'menu' ) as $key ) {
-			$instance[ $key ] = strip_tags( $new_instance[ $key ] );
+			$instance[ $key ] = wp_strip_all_tags( $new_instance[ $key ] );
 		}
 		return $instance;
 	}
