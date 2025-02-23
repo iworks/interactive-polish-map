@@ -55,21 +55,25 @@ There are 3 ways to install this plugin:
 
 == Changelog == 
 
+= 2.0.3 - 2025-02-23 =
+* The [iWorks Options](https://github.com/iworks/wordpress-options-class) module has been updated to 2.9.6.
+* The [iWorks Rate](https://github.com/iworks/iworks-rate) module has been updated to 2.2.3.
+
 = 2.0.2 - 2023-03-13 =
-* Updated iWorks Options to 2.9.2.
-* Updated iWorks Rate to 2.1.9.
+* The [iWorks Options](https://github.com/iworks/wordpress-options-class) module has been updated to 2.9.2.
+* The [iWorks Rate](https://github.com/iworks/iworks-rate) module has been updated to 2.1.9.
 * The function `strip_tags()` has been replaced by the function `wp_strip_all_tags()`.
 * The function `rand()` has been replaced by the function `wp_rand()`.
 
 = 2.0.1 - 2021-01-20 =
-* Updated iWorks Options to 2.7.3.
-* Updated iWorks Rate to 2.0.6.
+* The [iWorks Options](https://github.com/iworks/wordpress-options-class) module has been updated to 2.7.3.
+* The [iWorks Rate](https://github.com/iworks/iworks-rate) module has been updated to 2.0.6.
 
 = 2.0.0 - 2021-07-08 =
 * Replaced png by svg image.
 * Added Gutenberg block.
-* Updated iWorks Rate to 1.0.3.
-* Updated iWorks Options to 2.6.9.
+* The [iWorks Rate](https://github.com/iworks/iworks-rate) module has been updated to 1.0.3.
+* The [iWorks Options](https://github.com/iworks/wordpress-options-class) module has been updated to 2.6.9.
 
 = 1.1 - 2015-08-08 =
 * IMPROVEMENT: Update method of WP_Widget - remove deprecated constructor.
