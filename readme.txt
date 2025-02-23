@@ -53,7 +53,7 @@ There are 3 ways to install this plugin:
 1. A new menu `Interactive Polish Map` in `Settings` will appear in your Admin Menu.
 1. Place **[mapa-polski]** in your post or page.
 
-== Changelog == 
+== Changelog ==
 
 = 2.0.3 - 2025-02-23 =
 * The [iWorks Options](https://github.com/iworks/wordpress-options-class) module has been updated to 2.9.6.
